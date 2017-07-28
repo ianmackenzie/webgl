@@ -612,6 +612,7 @@ var _elm_community$webgl$Native_WebGL = function () {
     );
 
     if (gl) {
+      gl.getExtension('OES_standard_derivatives');
       sceneSettings.forEach(function (sceneSetting) {
         sceneSetting(gl);
       });
