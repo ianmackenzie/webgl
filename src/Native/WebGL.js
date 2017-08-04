@@ -601,6 +601,11 @@ var _elm_community$webgl$Native_WebGL = function () {
             gl.clearStencil(s1);
           });
           break;
+        case 'StandardDerivatives':
+          sceneSettings.push(function (gl) {
+            gl.getExtension('OES_standard_derivatives');
+          });
+          break;
       }
     }, model.options);
 
@@ -612,7 +617,6 @@ var _elm_community$webgl$Native_WebGL = function () {
     );
 
     if (gl) {
-      gl.getExtension('OES_standard_derivatives');
       sceneSettings.forEach(function (sceneSetting) {
         sceneSetting(gl);
       });

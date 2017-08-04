@@ -22,6 +22,7 @@ module WebGL
         , stencil
         , antialias
         , clearColor
+        , standardDerivatives
         , unsafeShader
         )
 
@@ -44,7 +45,7 @@ before trying to do too much with just the documentation provided here.
 
 # Advanced Usage
 @docs entityWith, toHtmlWith, Option, alpha, depth, stencil, antialias,
-  clearColor
+  clearColor, standardDerivatives
 
 # Meshes
 @docs indexedTriangles, lines, lineStrip, lineLoop, points, triangleFan,
@@ -305,6 +306,7 @@ type Option
     | Stencil Int
     | Antialias
     | ClearColor Float Float Float Float
+    | StandardDerivatives
 
 
 {-| Enable alpha channel in the drawing buffer. If the argument is `True`, then
@@ -350,3 +352,32 @@ clamped between 0 and 1. The default is all 0's.
 clearColor : Float -> Float -> Float -> Float -> Option
 clearColor =
     ClearColor
+
+
+{-| Enable the [standard derivatives](https://developer.mozilla.org/en-US/docs/Web/API/OES_standard_derivatives)
+extension, allowing the use of `dFdx`, `dFdy` and `fwidth` in fragment shaders.
+In addition to setting this option, any fragment shader that uses these
+functions must include
+
+```c
+#extension GL_OES_standard_derivatives : enable
+```
+
+as the first line. To allow compatibility with browsers that do not support this
+extension, you can use
+
+```c
+#ifdef GL_OES_standard_derivatives
+// compute values using dFdx, dFdy, fwidth
+#else
+// compute values using some other method
+#endif
+```
+
+in your fragment shader (in addition to the `#extension` line) to conditionally
+compile different shader logic based on whether the extension is available or
+not.
+-}
+standardDerivatives : Option
+standardDerivatives =
+    StandardDerivatives
